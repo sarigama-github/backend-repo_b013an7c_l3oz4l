@@ -11,7 +11,7 @@ Model name is converted to lowercase for the collection name:
 - BlogPost -> "blogs" collection
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 
 # Example schemas (replace with your own):
@@ -37,6 +37,17 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# CypherDex waitlist/newsletter capture
+class Waitlist(BaseModel):
+    """
+    Waitlist collection schema
+    Collection name: "waitlist"
+    """
+    email: EmailStr = Field(..., description="Subscriber email address")
+    source: Optional[str] = Field(None, description="Where the user came from (cta, footer, hero, etc.)")
+    referrer: Optional[str] = Field(None, description="Referral code or handle if any")
+    notes: Optional[str] = Field(None, max_length=500, description="Optional message or context")
 
 # Add your own schemas here:
 # --------------------------------------------------
